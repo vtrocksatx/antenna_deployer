@@ -1,0 +1,63 @@
+/*
+ * RockSat-X 2016 Antenna Deployer Code
+ * Version: 02/21/2016
+ * Author(s): Sebastian Welsh and John Mulvaney
+ */
+
+#define DIR_PIN 2
+#define STEP_PIN 3
+#define DEPLOY_SPEED 1 // (0.0, 1.0] note: slower is stronger
+#define RETRACT_SPEED 1 // (0.0, 1.0] note: slower is stronger
+#define DEPLOY_STEPS 16000 // 8 microsteps per step
+#define RETRACT_STEPS 16000 // 8 microsteps per step
+#define PREDEPLOY_SLEEP_TIME 10000
+#define TRANSMIT_WINDOW_LENGTH 10000
+
+bool executeDeployment = true;
+
+void setup() { 
+  pinMode(DIR_PIN, OUTPUT); 
+  pinMode(STEP_PIN, OUTPUT); 
+} 
+
+void loop(){
+  
+  if (executeDeployment) {
+    executeDeployment = false;
+    // Wait until skirt sep.
+    delay(PREDEPLOY_SLEEP_TIME);
+  
+    // Deploy antenna
+    rotate(DEPLOY_STEPS, DEPLOY_SPEED);
+  
+    // Wait until transmission is complete
+    delay(TRANSMIT_WINDOW_LENGTH); 
+  
+    // Retract antenna
+    rotate(-RETRACT_STEPS, RETRACT_SPEED);
+  }
+  
+}
+
+/*
+ * This function rotates the stepper motor a specified number
+ * of microsteps at the given speed.
+ * @param steps The number of microsteps to move
+ * @param speed The spped to move at
+ */
+void rotate(int steps, float speed){ 
+  int dir = (steps > 0) ? HIGH : LOW;
+  steps = abs(steps);
+
+  digitalWrite(DIR_PIN, dir); 
+
+  float usDelay = (1/speed) * 70;
+
+  for(int i=0; i < steps; i++){ 
+    digitalWrite(STEP_PIN, HIGH); 
+    delayMicroseconds(usDelay); 
+
+    digitalWrite(STEP_PIN, LOW); 
+    delayMicroseconds(usDelay); 
+  } 
+}
