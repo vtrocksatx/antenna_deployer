@@ -10,8 +10,8 @@
 #define RETRACT_SPEED 1 // (0.0, 1.0] note: slower is stronger
 #define DEPLOY_STEPS 16000 // 8 microsteps per step
 #define RETRACT_STEPS 16000 // 8 microsteps per step
-#define PREDEPLOY_SLEEP_TIME 10000
-#define TRANSMIT_WINDOW_LENGTH 10000
+#define PREDEPLOY_SLEEP_TIME 4000
+#define TRANSMIT_WINDOW_LENGTH 180000
 
 bool executeDeployment = true;
 
@@ -28,13 +28,13 @@ void loop(){
     delay(PREDEPLOY_SLEEP_TIME);
   
     // Deploy antenna
-    rotate(DEPLOY_STEPS, DEPLOY_SPEED);
+    rotate(-DEPLOY_STEPS, DEPLOY_SPEED);
   
     // Wait until transmission is complete
     delay(TRANSMIT_WINDOW_LENGTH); 
   
     // Retract antenna
-    rotate(-RETRACT_STEPS, RETRACT_SPEED);
+    rotate(RETRACT_STEPS, RETRACT_SPEED);
   }
   
 }
