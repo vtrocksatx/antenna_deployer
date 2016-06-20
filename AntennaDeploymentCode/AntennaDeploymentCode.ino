@@ -6,12 +6,14 @@
 
 #define DIR_PIN 2
 #define STEP_PIN 3
-#define DEPLOY_SPEED 1 // (0.0, 1.0] note: slower is stronger
-#define RETRACT_SPEED 1 // (0.0, 1.0] note: slower is stronger
-#define DEPLOY_STEPS 16000 // 8 microsteps per step
-#define RETRACT_STEPS 16000 // 8 microsteps per step
-#define PREDEPLOY_SLEEP_TIME 4000
-#define TRANSMIT_WINDOW_LENGTH 180000
+#define DEPLOY_SPEED .8 // (0.0, 1.0] note: slower is stronger
+#define ROTATE_SPEED .1 // (0.0, 1.0] note: slower is stronger
+#define RETRACT_SPEED .8 // (0.0, 1.0] note: slower is stronger
+#define DEPLOY_STEPS 26000 // 8 microsteps per step
+#define ROTATE_STEPS 8000 // 8 microsteps per step
+#define RETRACT_STEPS 25000 // 8 microsteps per step
+#define PREDEPLOY_SLEEP_TIME 1000
+#define TRANSMIT_WINDOW_LENGTH 1000
 
 bool executeDeployment = true;
 
@@ -28,13 +30,19 @@ void loop(){
     delay(PREDEPLOY_SLEEP_TIME);
   
     // Deploy antenna
-    rotate(-DEPLOY_STEPS, DEPLOY_SPEED);
+    for (int i = 0; i < 5; i++) {
+      rotate(-DEPLOY_STEPS, DEPLOY_SPEED);
+    }
+    rotate(-ROTATE_STEPS, ROTATE_SPEED);
   
     // Wait until transmission is complete
     delay(TRANSMIT_WINDOW_LENGTH); 
-  
+
     // Retract antenna
-    rotate(RETRACT_STEPS, RETRACT_SPEED);
+    rotate(ROTATE_STEPS, ROTATE_SPEED);
+    for (int i = 0; i < 5; i++) {
+      rotate(RETRACT_STEPS, RETRACT_SPEED);
+    }
   }
   
 }
