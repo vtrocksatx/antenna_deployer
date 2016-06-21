@@ -12,8 +12,8 @@
 #define DEPLOY_STEPS 25500 // 8 microsteps per step
 #define ROTATE_STEPS 8000 // 8 microsteps per step
 #define RETRACT_STEPS 22000 // 8 microsteps per step
-#define PREDEPLOY_SLEEP_TIME 116000
-#define TRANSMIT_WINDOW_LENGTH (300000-PREDEPLOY_SLEEP_TIME-36000)
+#define PREDEPLOY_SLEEP_TIME 1000
+#define TRANSMIT_WINDOW_LENGTH 147000
 
 bool executeDeployment = true;
 
