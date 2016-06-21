@@ -9,11 +9,11 @@
 #define DEPLOY_SPEED .8 // (0.0, 1.0] note: slower is stronger
 #define ROTATE_SPEED .1 // (0.0, 1.0] note: slower is stronger
 #define RETRACT_SPEED .8 // (0.0, 1.0] note: slower is stronger
-#define DEPLOY_STEPS 26000 // 8 microsteps per step
+#define DEPLOY_STEPS 25500 // 8 microsteps per step
 #define ROTATE_STEPS 8000 // 8 microsteps per step
-#define RETRACT_STEPS 25000 // 8 microsteps per step
-#define PREDEPLOY_SLEEP_TIME 1000
-#define TRANSMIT_WINDOW_LENGTH 1000
+#define RETRACT_STEPS 22000 // 8 microsteps per step
+#define PREDEPLOY_SLEEP_TIME 116000
+#define TRANSMIT_WINDOW_LENGTH (300000-PREDEPLOY_SLEEP_TIME-36000)
 
 bool executeDeployment = true;
 
